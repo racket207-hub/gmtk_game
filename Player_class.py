@@ -4,7 +4,7 @@ import settings
 class Player(pygame.sprite.Sprite):
     def __init__(self, *groups):
         super().__init__(*groups)
-        self.image = pygame.Surface((32, 32))
+        self.image = pygame.Surface(settings.ENTITY_SURFACE)
         self.image.fill((0, 200, 255))
         self.rect = self.image.get_rect(center = (200, 300))
         self.speed = 4
@@ -13,7 +13,6 @@ class Player(pygame.sprite.Sprite):
     #moves the player accordingly, it also limits the movement of the 
     #player to the border of the screen with clamp_ip
     def movement(self, state):
-        #print(state)
         match state:
             case "UP":
                 self.rect.y -= self.speed
@@ -23,6 +22,9 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x -= self.speed
             case "RIGHT":
                 self.rect.x += self.speed
+            case "STOP":
+                self.rect.x += 0
+                self.rect.y += 0
         self.rect.clamp_ip(settings.screen_rect)
     
     def update(self, state):

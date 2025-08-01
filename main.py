@@ -3,6 +3,7 @@ import settings
 from sys import exit
 from Player_class import Player
 from Enemy_class import Enemy
+from random import choice
 
 
 def player_input(game, state, event):
@@ -18,7 +19,9 @@ def player_input(game, state, event):
                     state = "RIGHT"
                 case pygame.K_a | pygame.K_LEFT:
                     state = "LEFT"
-        print(state)
+        if event.type == pygame.KEYUP:
+            state = "STOP"
+        #print(state)
         return state
     
 
@@ -37,7 +40,8 @@ def main():
 
     #enemy
     enemy = pygame.sprite.Group()
-    enemy.add(Enemy())
+    enemy_timer = pygame.USEREVENT + 1
+    pygame.time.set_timer(enemy_timer, 100)
 
     #game loop
     while True:
@@ -48,13 +52,21 @@ def main():
             state = player_input(game_active, state, event)
 
 
+            if game_active:
+                if event.type == enemy_timer:
+                    enemy.add(Enemy(choice(['goon', 'shooter', 'shooter', 'shooter'])))
+
+        # for e in enemy:
+        #     enemy_type = enemy[e]
+
         #screen
         settings.screen.fill(settings.BG_COLOR)
 
         #updating
         player.draw(settings.screen)
-        enemy.draw(settings.screen)
         player.update(state)
+        enemy.draw(settings.screen)
+        enemy.update()
         pygame.display.update()
         
 
