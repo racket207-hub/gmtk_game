@@ -21,7 +21,6 @@ def player_input(game, state, event):
                     state = "LEFT"
         if event.type == pygame.KEYUP:
             state = "STOP"
-        #print(state)
         return state
     
 
@@ -35,7 +34,7 @@ def main():
 
     #player
     player = pygame.sprite.GroupSingle()
-    player.add(Player())
+    player.add(Player(state))
     
 
     #enemy
@@ -50,7 +49,8 @@ def main():
                 pygame.quit()
                 exit()
             state = player_input(game_active, state, event)
-
+            
+            
 
             if game_active:
                 if event.type == enemy_timer:
@@ -59,6 +59,9 @@ def main():
         # for e in enemy:
         #     enemy_type = enemy[e]
 
+
+    
+        
         #screen
         settings.screen.fill(settings.BG_COLOR)
 
@@ -72,3 +75,7 @@ def main():
 
         clock.tick(60)   
 main()
+
+
+
+
